@@ -67,7 +67,7 @@
             android:background="@drawable/edit_text_background"
             android:ems="10"
             android:hint="@string/confirm_password"
-            android:inputType="text"
+            android:inputType="textWebPassword"
             android:textSize="16sp"
 
             />
