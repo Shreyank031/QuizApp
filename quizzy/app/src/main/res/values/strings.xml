@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">quizzy</string>
+    <string name="quote">Isn\'t life a collection of werid quizes with\nno answer to half the questions</string>
+    <string name="welcome_message">Welcome to Quiz Master</string>
+    <string name="get_started">Get Started</string>
+    <string name="login_now">Login Now</string>
+    <string name="please_login_to_continue">Please login to continue</string>
+    <string name="Password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="stay_connected">Stay Connected</string>
+</resources>
