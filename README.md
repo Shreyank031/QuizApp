@@ -2,6 +2,7 @@
 
 Quizzy is an Android quiz application developed using Kotlin and Firebase Authentication. 
 It allows users to sign up, log in, and participate in quizzes.
+
 Note: The project is still in developing/incomplete state
 
 ## Features
