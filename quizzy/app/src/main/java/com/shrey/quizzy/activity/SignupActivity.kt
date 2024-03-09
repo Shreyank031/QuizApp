@@ -1,9 +1,11 @@
 package com.shrey.quizzy.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.shrey.quizzy.R
@@ -26,6 +28,13 @@ class SignupActivity : AppCompatActivity() {
         button.setOnClickListener{
             // Call the signUpUser function when the Signup Button is clicked
             signUpUser()
+        }
+        val textButtonLogin: TextView = findViewById(R.id.txtButtonLogin)
+        textButtonLogin.setOnClickListener{
+
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -57,8 +66,15 @@ class SignupActivity : AppCompatActivity() {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
+
                     // Show a success message if user creation is successful
                     Toast.makeText(this, "Signup Successful", Toast.LENGTH_SHORT).show()
+
+                    // If the user is successfully signed un, then redirect to MainActivity and end the SignUpActivity Activity
+                    val intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
                 } else {
                     // Show an error message if user creation fails
                     Toast.makeText(this, "Signup Failed", Toast.LENGTH_SHORT).show()
