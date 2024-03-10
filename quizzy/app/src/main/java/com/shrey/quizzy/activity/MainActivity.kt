@@ -49,6 +49,11 @@ class MainActivity : AppCompatActivity() {
             //'value' is the QuerySnapshot object obtained from the Firestore database.
             //convert firestore documents into Quize objects
             Log.d("DATAA", value.toObjects(Quiz::class.java).toString()) // Log retrieved data
+
+            quizList.clear()
+            quizList.addAll(value.toObjects(Quiz::class.java))
+            adapter.notifyDataSetChanged()
+
         }
 
     }
