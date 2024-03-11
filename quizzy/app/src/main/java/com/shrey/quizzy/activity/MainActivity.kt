@@ -1,5 +1,7 @@
 package com.shrey.quizzy.activity
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shrey.quizzy.R
 import com.shrey.quizzy.adapters.QuizAdapter
+import com.shrey.quizzy.databinding.ActivityMainBinding
 import com.shrey.quizzy.models.Quiz
 
 class MainActivity : AppCompatActivity() {
@@ -20,12 +24,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerToggle: ActionBarDrawerToggle
     lateinit var adapter: QuizAdapter
     lateinit var fireStore: FirebaseFirestore
-
+    private lateinit var binding: ActivityMainBinding
     var quizList = mutableListOf<Quiz>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setView()
 
     }
@@ -35,8 +40,33 @@ class MainActivity : AppCompatActivity() {
         setDrawerToggle()
         populateData()
         setRecyclerView()
+        setDatePicker()
 
     }
+
+    private fun setDatePicker() {
+        binding.btnDate.setOnClickListener {
+            val datePicker = MaterialDatePicker.Builder.datePicker().build()
+            datePicker.show(supportFragmentManager, "Huyoo")
+
+            //Events to handle like 'ok' 'cancel' and clicking back button
+            datePicker.addOnPositiveButtonClickListener {
+                Log.d("DATEE", datePicker.headerText)
+                val intent = Intent(this, QuestionActivity::class.java)
+                intent.putExtra("KeyValue", datePicker.headerText)
+                startActivity(intent)
+            }
+            datePicker.addOnNegativeButtonClickListener {
+                Log.d("DATEE", datePicker.headerText)
+
+            }
+
+            datePicker.addOnCancelListener {
+                Log.d("DATEE", "User pressed back button")
+            }
+        }
+    }
+
     // Method to set up Firebase Firestore
     private fun setUpFireStore() {
         fireStore = FirebaseFirestore.getInstance() // Get Firestore instance
@@ -47,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 return@addSnapshotListener
             }
             //'value' is the QuerySnapshot object obtained from the Firestore database.
-            //convert firestore documents into Quize objects
+            //convert firestore documents into Quiz objects
             Log.d("DATAA", value.toObjects(Quiz::class.java).toString()) // Log retrieved data
 
             quizList.clear()
@@ -72,15 +102,6 @@ class MainActivity : AppCompatActivity() {
         quizList.add(Quiz("1", "18/3/2024"))
         quizList.add(Quiz("1", "19/3/2024"))
         quizList.add(Quiz("1", "20/3/2024"))
-        quizList.add(Quiz("1", "21/3/2024"))
-        quizList.add(Quiz("1", "22/3/2024"))
-        quizList.add(Quiz("1", "23/3/2024"))
-        quizList.add(Quiz("1", "24/3/2024"))
-        quizList.add(Quiz("1", "25/3/2024"))
-        quizList.add(Quiz("1", "26/3/2024"))
-        quizList.add(Quiz("1", "27/3/2024"))
-        quizList.add(Quiz("1", "28/3/2024"))
-        quizList.add(Quiz("1", "29/3/2024"))
     }
 
     // Method to set up the RecyclerView
