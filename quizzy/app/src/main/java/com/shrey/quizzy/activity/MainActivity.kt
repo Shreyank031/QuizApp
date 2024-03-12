@@ -17,7 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.shrey.quizzy.R
 import com.shrey.quizzy.adapters.QuizAdapter
 import com.shrey.quizzy.databinding.ActivityMainBinding
+import com.shrey.quizzy.models.Question
 import com.shrey.quizzy.models.Quiz
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     // Late-initialized properties
@@ -26,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var fireStore: FirebaseFirestore
     private lateinit var binding: ActivityMainBinding
     var quizList = mutableListOf<Quiz>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private fun setView() {
         setUpFireStore()
         setDrawerToggle()
-        populateData()
         setRecyclerView()
         setDatePicker()
 
@@ -51,9 +55,11 @@ class MainActivity : AppCompatActivity() {
 
             //Events to handle like 'ok' 'cancel' and clicking back button
             datePicker.addOnPositiveButtonClickListener {
-                Log.d("DATEE", datePicker.headerText)
+                val dateFormatter = SimpleDateFormat("dd-MM-yyyy")
+                val date = dateFormatter.format(Date(it))
+                Log.d("Date", date)
                 val intent = Intent(this, QuestionActivity::class.java)
-                intent.putExtra("KeyValue", datePicker.headerText)
+                intent.putExtra("Date", date)
                 startActivity(intent)
             }
             datePicker.addOnNegativeButtonClickListener {
@@ -80,28 +86,13 @@ class MainActivity : AppCompatActivity() {
             //convert firestore documents into Quiz objects
             Log.d("DATAA", value.toObjects(Quiz::class.java).toString()) // Log retrieved data
 
+
             quizList.clear()
             quizList.addAll(value.toObjects(Quiz::class.java))
             adapter.notifyDataSetChanged()
 
         }
 
-    }
-
-    // Method to populate data into the quiz list
-    private fun populateData() {
-        // Add sample quiz data to the list
-        quizList.add(Quiz("1", "10/3/2024"))
-        quizList.add(Quiz("1", "11/3/2024"))
-        quizList.add(Quiz("1", "12/3/2024"))
-        quizList.add(Quiz("1", "13/3/2024"))
-        quizList.add(Quiz("1", "14/3/2024"))
-        quizList.add(Quiz("1", "15/3/2024"))
-        quizList.add(Quiz("1", "16/3/2024"))
-        quizList.add(Quiz("1", "17/3/2024"))
-        quizList.add(Quiz("1", "18/3/2024"))
-        quizList.add(Quiz("1", "19/3/2024"))
-        quizList.add(Quiz("1", "20/3/2024"))
     }
 
     // Method to set up the RecyclerView
